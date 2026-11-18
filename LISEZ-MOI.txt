@@ -1,0 +1,11 @@
+ENGLISH FLIGHTPATH — application web locale
+
+1. Décompressez le dossier si vous avez téléchargé le ZIP.
+2. Ouvrez index.html avec un navigateur récent (Chrome, Edge, Firefox ou Safari).
+3. L'application fonctionne sans installation et sans compte.
+4. La progression et les notes sont enregistrées dans le stockage local du navigateur, sur cet appareil.
+5. Pour conserver vos progrès sur un autre appareil, il faut les transférer manuellement : cette version ne synchronise pas les données en ligne.
+
+Le parcours contient 48 étapes de A1 à B2, une leçon interactive avec mini-question, des exemples audio via la synthèse vocale du navigateur, une routine d'écoute et un suivi de progression.
+
+Les contenus constituent un parcours pédagogique indicatif, pas une certification officielle ni une garantie d'atteindre B2. La synthèse vocale dépend des voix disponibles sur l'appareil.

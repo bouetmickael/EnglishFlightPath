@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10243a">
+<title>English Flightpath — Mon anglais vers l’ENAC</title>
+<style>
+:root{--navy:#10243a;--blue:#245b83;--sky:#eaf3f9;--paper:#f7f9fb;--ink:#172536;--muted:#627386;--line:#dce5ec;--green:#287a59;--gold:#a66a13;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#10243a,#245b83);color:white;padding:28px max(20px,calc((100% - 1120px)/2)) 24px}
+header .eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8}h1{font-size:clamp(1.7rem,4vw,2.7rem);line-height:1.12;margin:.45rem 0}header p{max-width:720px;color:#e4edf4;margin:.5rem 0 0}
+main{max-width:1120px;margin:22px auto;padding:0 18px 60px}.topgrid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 20px #16324a0a}
+h2{font-size:1.25rem;margin:0 0 12px}h3{font-size:1.03rem;margin:0 0 8px}.muted{color:var(--muted)}.small{font-size:.88rem}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.stat{background:var(--sky);border-radius:12px;padding:12px}.stat strong{display:block;font-size:1.45rem;color:var(--blue)}
+.progress{height:10px;background:#e7edf2;border-radius:99px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);width:0;transition:width .2s}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab,button,select{font:inherit}.tab,button{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:white;cursor:pointer}.tab{background:#e5edf4;color:var(--navy)}.tab.active{background:var(--navy);color:white}button.secondary{background:#e7eef4;color:var(--navy)}button:disabled{opacity:.45;cursor:not-allowed}
+.panel{display:none}.panel.active{display:block}.roadmap{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.level{border-left:5px solid var(--blue)}.level .range{color:var(--blue);font-weight:700;font-size:.85rem}
+.unitlist{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.unit{border:1px solid var(--line);border-radius:12px;padding:13px;background:white}.unit.done{border-color:#a7d2bd;background:#f4fbf7}.unithead{display:flex;justify-content:space-between;gap:10px;align-items:start}.pill{font-size:.75rem;padding:3px 8px;border-radius:99px;background:#e9f0f5;color:#35516a;white-space:nowrap}.pill.done{background:#e0f3e8;color:#216344}
+label{display:block;font-weight:600;margin:12px 0 5px}input[type=text],textarea,select{width:100%;padding:11px;border:1px solid #cbd7e1;border-radius:9px;background:white;color:var(--ink)}textarea{min-height:105px;resize:vertical}
+.quizq{padding:13px;background:#f3f7fa;border-radius:11px;margin:12px 0}.choices{display:grid;gap:7px;margin-top:8px}.choices label{font-weight:400;margin:0;display:flex;gap:8px;align-items:center}
+.lessoncols{display:grid;grid-template-columns:1fr 1fr;gap:14px}.word{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:7px 0;gap:12px}.word button{padding:5px 9px;font-size:.8rem}
+.notice{padding:12px 14px;border-radius:10px;background:#fff7e8;border:1px solid #f1dfb9;color:#67470e}.success{background:#eaf7ef;border-color:#b9dfc8;color:#205b3b}
+footer{color:var(--muted);font-size:.85rem;margin-top:24px}
+@media(max-width:760px){.topgrid,.roadmap,.unitlist,.lessoncols{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}header{padding:24px 18px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">Parcours personnel · anglais américain</div>
+ <h1>English Flightpath</h1>
+ <p>Un parcours progressif de débutante A1 vers l’objectif B2, avec une orientation aéronautique et une préparation linguistique à long terme pour ton projet ENAC.</p>
+</header>
+<main>
+ <section class="topgrid">
+  <div class="card">
+   <h2>Ton tableau de bord</h2>
+   <p class="muted small">Rythme conseillé : une séance de 60 minutes un jour sur deux. Les jours intermédiaires : 15 à 20 minutes d’écoute et de répétition.</p>
+   <div class="progress"><span id="bar"></span></div>
+   <div class="stats">
+    <div class="stat"><strong id="doneCount">0</strong><span class="small">leçons terminées</span></div>
+    <div class="stat"><strong>48</strong><span class="small">étapes du parcours</span></div>
+    <div class="stat"><strong id="percent">0%</strong><span class="small">progression</span></div>
+   </div>
+  </div>
+  <div class="card">
+   <h2>Reprendre le parcours</h2>
+   <p id="nextText" class="muted">Commence par la leçon 1 : se présenter.</p>
+   <button id="continueBtn">Ouvrir ma prochaine leçon</button>
+   <p class="small muted" style="margin-bottom:0">Ta progression est enregistrée dans ce navigateur sur cet appareil.</p>
+  </div>
+ </section>
+ <nav>
+  <button class="tab active" data-tab="lesson">Ma leçon</button>
+  <button class="tab" data-tab="programme">Tout le programme</button>
+  <button class="tab" data-tab="audio">Jours audio</button>
+  <button class="tab" data-tab="progress">Mon bilan</button>
+ </nav>
+ <section id="lesson" class="panel active">
+  <div class="card">
+   <div class="unithead"><div><div class="range" id="lessonLevel">A1 · Débutant</div><h2 id="lessonTitle">Leçon 1 — Se présenter</h2></div><span class="pill" id="lessonNumber">1 / 48</span></div>
+   <p id="lessonGoal" class="muted"></p>
+   <div class="lessoncols">
+    <div>
+     <h3>À apprendre</h3><div id="grammar"></div>
+     <h3 style="margin-top:18px">Vocabulaire</h3><div id="vocab"></div>
+    </div>
+    <div>
+     <h3>À pratiquer</h3><div id="practice"></div>
+     <div class="notice small" style="margin-top:14px">Astuce : lis les phrases à voix haute. Tu peux utiliser le bouton audio pour entendre une prononciation synthétique si ton navigateur la prend en charge.</div>
+    </div>
+   </div>
+   <div id="quizArea"></div>
+   <div id="feedback" aria-live="polite"></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
+    <button id="checkBtn">Vérifier mes réponses</button>
+    <button id="completeBtn" class="secondary">Marquer comme terminée</button>
+    <button id="prevBtn" class="secondary">← Précédente</button>
+    <button id="nextBtn" class="secondary">Suivante →</button>
+   </div>
+  </div>
+ </section>
+ <section id="programme" class="panel">
+  <div class="card">
+   <h2>Le parcours complet</h2>
+   <p class="muted">Le programme est organisé en 4 paliers. Les dates sont indicatives : avance selon tes acquis, pas seulement selon le calendrier. Chaque étape contient un objectif, un point de langue, du vocabulaire et une petite tâche.</p>
+   <div id="roadmap" class="roadmap"></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+   <h2>Les 48 étapes</h2>
+   <div id="unitList" class="unitlist"></div>
+  </div>
+ </section>
+ <section id="audio" class="panel">
+  <div class="card">
+   <h2>Routine des jours sans leçon</h2>
+   <p>Durée conseillée : 15 à 20 minutes. Choisis un audio facile, idéalement en anglais américain, et travaille activement plutôt que de laisser simplement tourner la vidéo.</p>
+   <ol>
+    <li><b>Écoute (5–8 min)</b> : écoute une première fois sans chercher à tout comprendre.</li>
+    <li><b>Réécoute (5 min)</b> : repère quelques mots ou expressions.</li>
+    <li><b>Répétition (3–5 min)</b> : mets en pause et répète des phrases courtes.</li>
+    <li><b>Trace (2 min)</b> : note trois mots et une phrase utile.</li>
+   </ol>
+   <div class="notice"><b>Ressource de départ :</b> VOA Learning English — <a href="https://learningenglish.voanews.com/p/5644.html" target="_blank" rel="noopener">Let's Learn English Level 1</a>, cours conçu pour les débutants en anglais américain.</div>
+   <label for="audioNotes">Mon carnet d'écoute</label>
+   <textarea id="audioNotes" placeholder="Aujourd'hui, j'ai entendu...&#10;Trois mots nouveaux : ..."></textarea>
+   <button id="saveNotes" style="margin-top:8px">Enregistrer mes notes</button>
+   <span id="notesSaved" class="small muted"></span>
+  </div>
+ </section>
+ <section id="progress" class="panel">
+  <div class="card">
+   <h2>Mon bilan</h2>
+   <p id="summary">Tu n'as pas encore terminé de leçon. C'est normal : chaque parcours commence par une première étape.</p>
+   <h3>Compétences à suivre</h3>
+   <p class="muted small">À la fin de chaque palier, fais le point sur les quatre compétences : compréhension orale, expression orale, lecture et écriture.</p>
+   <ul><li>A1 : phrases simples et informations personnelles.</li><li>A2 : échanges courants et descriptions simples.</li><li>B1 : expliquer, raconter et donner son opinion.</li><li>B2 : comprendre des contenus complexes et argumenter avec aisance.</li></ul>
+   <button class="secondary" id="resetBtn">Réinitialiser la progression</button>
+   <p class="small muted">La réinitialisation efface uniquement les données de progression enregistrées par cette application dans ce navigateur.</p>
+  </div>
+ </section>
+ <footer>Ce parcours est un support pédagogique personnel, pas une certification officielle ni une garantie d’atteindre B2. L’objectif est ambitieux : les bilans réguliers permettront d’adapter le rythme. Les conditions de recrutement et de formation ENAC peuvent évoluer ; vérifie-les sur le site officiel de l’ENAC.</footer>
+</main>
+<script>
+const units = [
+["A1","Premiers pas","Se présenter","Pronoms personnels et verbe to be","salutations, pays, métiers","Présente-toi en 4 phrases.","I am / She is / They are","I ___ a student.","am","am","I am a student."],
+["A1","Premiers pas","Dire son âge et parler de soi","To be : questions et réponses courtes","nombres, âge, informations personnelles","Réponds à 4 questions personnelles.","How old are you?","How old ___ you?","are","are","How old are you?"],
+["A1","Premiers pas","Famille et entourage","Possessifs my, your, his, her","famille, personnes","Présente deux personnes de ta famille.","my, your, his, her","This is ___ mother. (ma)","my","my","This is my mother."],
+["A1","Premiers pas","Les objets et la classe","A / an, pluriel régulier","objets scolaires, couleurs","Décris cinq objets autour de toi.","a / an / -s","___ apple","an","an","An apple."],
+["A1","Premiers pas","La routine quotidienne","Présent simple affirmatif","verbes du quotidien, heures","Décris ta journée en 5 phrases.","I get up / I go / I study","She ___ to school.","goes","goes","She goes to school."],
+["A1","Premiers pas","J'aime et je n'aime pas","Like + nom / verbe en -ing","loisirs, matières, goûts","Écris trois choses que tu aimes.","I like + noun / -ing","I like ___ music.","listening to","listening to","I like listening to music."],
+["A1","Premiers pas","Poser des questions simples","Do / does, mots interrogatifs","who, what, where, when","Écris trois questions à un correspondant.","Do you...? / Where...?","___ you speak English?","Do","Do","Do you speak English?"],
+["A1","Premiers pas","Décrire un lieu","There is / there are","maison, ville, lieux","Décris ta chambre ou ta ville.","There is / There are","There ___ two windows.","are","are","There are two windows."],
+["A1","Premiers pas","Se repérer et demander son chemin","Impératif et prépositions de lieu","left, right, next to, opposite","Explique un trajet très simple.","Turn left / next to","The bank is ___ the school. (à côté de)","next to","next to","The bank is next to the school."],
+["A1","Premiers pas","Nourriture et commandes simples","Some / any, noms dénombrables","food, drinks, meals","Joue une mini-scène au café.","I'd like... / Can I have...?","I'd like ___ water.","some","some","I'd like some water."],
+["A1","Premiers pas","Parler de ce qu'on sait faire","Can / can't","abilities, activities","Dis trois choses que tu sais faire.","I can / I can't","A bird ___ fly.","can","can","A bird can fly."],
+["A1","Premiers pas","Révision A1 et mini-projet","Révision : be, have, présent simple","vocabulaire de base","Fais une présentation d'une minute.","Assembler les acquis A1","Choose: I ___ from France.","am","am","I am from France."],
+["A2","Échanges du quotidien","Raconter hier","Past simple : be et verbes réguliers","weekend, activités passées","Raconte ton dernier weekend.","was / were / -ed","Yesterday, I ___ at home.","was","was","Yesterday, I was at home."],
+["A2","Échanges du quotidien","Les verbes irréguliers fréquents","Past simple irrégulier","went, saw, had, did, made","Raconte une sortie passée.","go-went, see-saw, have-had","I ___ to Paris last year.","went","went","I went to Paris last year."],
+["A2","Échanges du quotidien","Parler de demain","Be going to","projets, dates, météo","Présente trois projets.","I'm going to...","She is going to ___ English.","study","study","She is going to study English."],
+["A2","Échanges du quotidien","Comparer des choses","Comparatifs et superlatifs","adjectifs, tailles, distances","Compare deux villes ou moyens de transport.","bigger than / the biggest","A plane is ___ than a car. (fast)","faster","faster","A plane is faster than a car."],
+["A2","Échanges du quotidien","Décrire une expérience","Present perfect : introduction","ever, never, been, tried","Écris trois phrases avec ever/never.","Have you ever...?","Have you ever ___ to London?","been","been","Have you ever been to London?"],
+["A2","Échanges du quotidien","Santé et conseils courants","Should / shouldn't","sensations, conseils simples","Donne trois conseils de bien-être général.","You should...","You ___ get some rest.","should","should","You should get some rest."],
+["A2","Échanges du quotidien","Voyages et transports","Prépositions de temps et futur","ticket, station, departure, arrival","Prépare un itinéraire de voyage simple.","at / on / in","The train leaves ___ 8 o'clock.","at","at","The train leaves at 8 o'clock."],
+["A2","Échanges du quotidien","Au téléphone et en conversation","Questions indirectes simples","repeat, spell, mean, understand","Demande poliment de répéter.","Could you...?","Could you ___ that, please?","repeat","repeat","Could you repeat that, please?"],
+["A2","Échanges du quotidien","Études et projets","Must / have to","school subjects, goals","Explique tes objectifs d'étude.","I have to / I must","I ___ practise every week.","have to","have to","I have to practise every week."],
+["A2","Échanges du quotidien","Médias et actualité facile","Adverbes de fréquence","usually, sometimes, rarely","Résume une courte vidéo en 5 phrases.","always / usually / sometimes","I ___ listen to English. (souvent)","often","often","I often listen to English."],
+["A2","Échanges du quotidien","Révision A2 et projet oral","Révision des temps de base","voyage, école, loisirs","Parle 2 minutes de toi et de tes projets.","Choisir le temps adapté","Last summer, we ___ to Spain.","went","went","Last summer, we went to Spain."],
+["B1","Devenir autonome","Raconter et organiser un récit","Past continuous vs past simple","événements, chronologie","Raconte un événement avec contexte.","I was doing when...","I ___ studying when you called.","was","was","I was studying when you called."],
+["B1","Devenir autonome","Parler de ses expériences","Present perfect vs past simple","for, since, already, yet","Compare une expérience et un moment passé.","I have lived / I lived","I ___ here since 2020.","have lived","have lived","I have lived here since 2020."],
+["B1","Devenir autonome","Exprimer une opinion","Opinion, accord et désaccord","I think, however, although","Défends une opinion avec deux arguments.","because / however / although","I agree ___ I see your point.","because","because","I agree because I see your point."],
+["B1","Devenir autonome","Hypothèses et possibilités","First and second conditional","if, unless, might","Imagine des possibilités réalistes.","If + present, will...","If it rains, we ___ stay home.","will","will","If it rains, we will stay home."],
+["B1","Devenir autonome","Expliquer un processus","Passive voice : introduction","built, made, used, produced","Explique comment un objet est fabriqué.","is made / was built","English ___ in many countries.","is spoken","is spoken","English is spoken in many countries."],
+["B1","Devenir autonome","Relations et communication","Reported speech : bases","say, tell, explain, ask","Rapporte une conversation courte.","He said that...","She said she ___ tired.","was","was","She said she was tired."],
+["B1","Devenir autonome","Sciences et technologies","Relative clauses","which, who, that, where","Présente une innovation scientifique.","a device that...","A pilot is a person ___ flies an aircraft.","who","who","A pilot is a person who flies an aircraft."],
+["B1","Devenir autonome","Comprendre les médias","Connecteurs et résumé","headline, source, evidence","Résume un article court sans le traduire mot à mot.","firstly / moreover / finally","___, the report explains the problem.","Firstly","Firstly","Firstly, the report explains the problem."],
+["B1","Devenir autonome","Introduction à l'aviation","Vocabulaire aéronautique fondamental","airport, runway, tower, aircraft","Décris le rôle de trois éléments d'un aéroport.","There is / is used for","A runway is used for aircraft to ___.","take off and land","take off and land","A runway is used for aircraft to take off and land."],
+["B1","Devenir autonome","Sécurité, météo et environnement","Modaux de possibilité et obligation","weather, visibility, safety","Décris une situation météo simple et ses effets.","must / may / might","Visibility ___ be reduced by fog.","may","may","Visibility may be reduced by fog."],
+["B1","Devenir autonome","Révision B1 et débat","Révision et argumentation","éducation, technologie, transport","Présente un exposé de 3 minutes.","Structurer une opinion","A strong argument needs an example and ___.","explanation","explanation","A strong argument needs an example and explanation."],
+["B2","Vers l'aisance","Nuancer ses opinions","Advanced linking and concession","nevertheless, whereas, despite","Compare deux points de vue nuancés.","although / despite / whereas","___ the delay, the flight departed.","Despite","Despite","Despite the delay, the flight departed."],
+["B2","Vers l'aisance","Grammaire avancée en contexte","Mixed conditionals and modal perfects","could have, should have, might have","Explique des hypothèses passées.","might have + past participle","They ___ missed the train.","might have","might have","They might have missed the train."],
+["B2","Vers l'aisance","Comprendre différents accents","Listening strategies and connected speech","expressions naturelles, paraphrase","Prends des notes sur un audio de 4 à 6 minutes.","Réduction, accentuation, reformulation","When listening, focus on meaning, not every ___.","word","word","Focus on meaning, not every word."],
+["B2","Vers l'aisance","Présenter des données","Language for trends and comparisons","increase, decrease, remain stable","Décris un graphique en 90 secondes.","rose / fell / has remained","The number ___ steadily last year.","increased","increased","The number increased steadily last year."],
+["B2","Vers l'aisance","Écrire un texte argumenté","Essay structure and register","claim, evidence, counterargument","Écris un texte structuré de 180 à 220 mots.","introduction / arguments / conclusion","A formal essay should have a clear ___.","structure","structure","A formal essay should have a clear structure."],
+["B2","Vers l'aisance","Anglais scientifique et technique","Precise definitions and explanations","system, component, operate, monitor","Explique le fonctionnement d'un système simple.","defining and qualifying","A radar system is designed to ___ targets.","detect","detect","A radar system is designed to detect targets."],
+["B2","Vers l'aisance","Aviation : environnement et opérations","Aviation vocabulary in authentic contexts","airspace, route, altitude, crew","Comprends et résume un texte aéronautique adapté.","passive, modals, precise vocabulary","Aircraft operate within controlled ___.","airspace","airspace","Aircraft operate within controlled airspace."],
+["B2","Vers l'aisance","Communication claire sous contrainte","Clarifying, confirming, checking understanding","confirm, clarify, acknowledge","Reformule une information complexe clairement.","Could you confirm...?","Let me ___ that I understood correctly.","check","check","Let me check that I understood correctly."],
+["B2","Vers l'aisance","Compréhension et synthèse avancées","Long-form listening and reading","summary, implication, main point","Fais la synthèse d'un audio et d'un texte.","main idea vs details","A good summary focuses on the main ___.","points","points","A good summary focuses on the main points."],
+["B2","Vers l'aisance","Préparation aux évaluations","B2 task types and TOEIC-style familiarity","workplace, announcements, schedules","Fais un mini-test chronométré et analyse tes erreurs.","stratégies d'examen","Read the question before listening to the ___.","recording","recording","Read the question before listening to the recording."],
+["B2","Vers l'aisance","Projet final B2","Integrated skills portfolio","révision générale et aviation","Présente un sujet pendant 5 minutes, rédige un texte et résume un audio.","mobiliser tous les acquis","B2 requires understanding complex ideas and expressing them ___.","clearly","clearly","Expressing them clearly."]
+];
+const levelInfo=[
+{level:"A1",name:"Premiers pas",range:"Mois 1 à 6 · Débutante",goal:"Construire des phrases simples, se présenter et comprendre des échanges très courants.",outcome:"Objectif : une présentation simple et une compréhension de consignes familières."},
+{level:"A2",name:"Échanges du quotidien",range:"Mois 7 à 12 · Élémentaire",goal:"Parler de son quotidien, raconter des événements et gérer des situations courantes.",outcome:"Objectif : tenir une conversation simple et raconter une expérience."},
+{level:"B1",name:"Devenir autonome",range:"Mois 13 à 22 · Intermédiaire",goal:"Comprendre l'essentiel, argumenter, raconter et aborder les sciences et l'aviation.",outcome:"Objectif : parler avec autonomie et comprendre des contenus adaptés."},
+{level:"B2",name:"Vers l'aisance",range:"Mois 23 à 31+ · Intermédiaire avancé",goal:"Comprendre des contenus complexes, nuancer, écrire et communiquer avec précision.",outcome:"Objectif : viser B2 dans les quatre compétences, sans garantie automatique."}
+];
+let current=Number(localStorage.getItem("ef_current")||0);
+let completed=JSON.parse(localStorage.getItem("ef_done")||"[]");
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem("ef_current",current);localStorage.setItem("ef_done",JSON.stringify(completed));renderStats()}
+function renderStats(){let n=completed.length,p=Math.round(n/units.length*100);$("doneCount").textContent=n;$("percent").textContent=p+"%";$("bar").style.width=p+"%";let next=units.findIndex((u,i)=>!completed.includes(i));$("nextText").textContent=next<0?"Bravo, tu as parcouru les 48 étapes !":`Prochaine étape : leçon ${next+1} — ${units[next][2]}.`;$("summary").textContent=`Tu as terminé ${n} leçon(s) sur ${units.length}, soit ${p} % du parcours.`}
+function renderLesson(){
+ const u=units[current];$("lessonLevel").textContent=u[0]+" · "+({A1:"Débutant",A2:"Élémentaire",B1:"Intermédiaire",B2:"Intermédiaire avancé"}[u[0]]);
+ $("lessonTitle").textContent=`Leçon ${current+1} — ${u[2]}`;$("lessonNumber").textContent=`${current+1} / ${units.length}`;$("lessonGoal").textContent=`Objectif : ${u[5]}`;
+ $("grammar").innerHTML=`<p><b>${u[3]}</b></p><p class="muted small">${u[6]}</p><button class="secondary" onclick="speak(${JSON.stringify(u[6])})">Écouter l'exemple</button>`;
+ $("vocab").innerHTML=`<p>${u[4]}</p><div class="word"><span>${u[10]}</span><button class="secondary" onclick="speak(${JSON.stringify(u[10])})">Écouter</button></div>`;
+ $("practice").innerHTML=`<p>${u[5]}</p><p><b>Exemple :</b> ${u[10]}</p><button class="secondary" onclick="speak(${JSON.stringify(u[10])})">Écouter l'exemple</button><label for="myAnswer">Ma phrase / mon essai</label><textarea id="myAnswer" placeholder="Écris ici ta réponse..."></textarea>`;
+ $("quizArea").innerHTML=`<div class="quizq"><b>Mini-question</b><p>${u[7]}</p><input id="quizAnswer" type="text" placeholder="Écris le mot ou la réponse en anglais"></div>`;
+ $("feedback").innerHTML="";$("prevBtn").disabled=current===0;$("nextBtn").disabled=current===units.length-1;
+ $("completeBtn").textContent=completed.includes(current)?"Leçon terminée ✓":"Marquer comme terminée";
+}
+function speak(text){if(!("speechSynthesis" in window)){alert("La lecture audio n'est pas prise en charge par ce navigateur.");return}let msg=new SpeechSynthesisUtterance(text);msg.lang="en-US";msg.rate=.88;speechSynthesis.cancel();speechSynthesis.speak(msg)}
+function check(){let u=units[current],v=$("quizAnswer").value.trim().toLowerCase().replace(/[.!?]/g,"");let ok=v===u[8].toLowerCase();$("feedback").innerHTML=`<div class="notice ${ok?"success":""}">${ok?"Bonne réponse !":"Pas tout à fait. La réponse attendue est : "+u[9]+"."} <br><b>Phrase complète :</b> ${u[10]}</div>`}
+function renderRoadmap(){$("roadmap").innerHTML=levelInfo.map((l,i)=>`<div class="card level"><div class="range">${l.range}</div><h3>${l.level} — ${l.name}</h3><p>${l.goal}</p><p class="small muted">${l.outcome}</p></div>`).join("");$("unitList").innerHTML=units.map((u,i)=>`<div class="unit ${completed.includes(i)?"done":""}"><div class="unithead"><b>${i+1}. ${u[2]}</b><span class="pill ${completed.includes(i)?"done":""}">${completed.includes(i)?"Terminée":u[0]}</span></div><p class="small muted">${u[3]}</p><button class="secondary" onclick="openUnit(${i})">Ouvrir</button></div>`).join("")}
+function openUnit(i){current=i;save();renderLesson();document.querySelector('[data-tab="lesson"]').click();window.scrollTo({top:0,behavior:"smooth"})}
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===b.dataset.tab))}));
+$("continueBtn").onclick=()=>{let i=units.findIndex((u,i)=>!completed.includes(i));openUnit(i<0?0:i)};
+$("checkBtn").onclick=check;
+$("completeBtn").onclick=()=>{if(!completed.includes(current))completed.push(current);save();renderLesson();renderRoadmap();$("feedback").innerHTML='<div class="notice success">Progression enregistrée dans ce navigateur. Bien joué !</div>'};
+$("prevBtn").onclick=()=>openUnit(Math.max(0,current-1));$("nextBtn").onclick=()=>openUnit(Math.min(units.length-1,current+1));
+$("saveNotes").onclick=()=>{localStorage.setItem("ef_notes",$("audioNotes").value);$("notesSaved").textContent="Notes enregistrées."};
+$("audioNotes").value=localStorage.getItem("ef_notes")||"";
+$("resetBtn").onclick=()=>{if(confirm("Effacer toute ta progression et tes notes sur cet appareil ?")){completed=[];current=0;localStorage.removeItem("ef_done");localStorage.removeItem("ef_current");localStorage.removeItem("ef_notes");$("audioNotes").value="";save();renderLesson();renderRoadmap();}};
+renderStats();renderLesson();renderRoadmap();
+</script>
+</body></html>
